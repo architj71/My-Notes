@@ -80,4 +80,13 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
     //Extended Icons
     implementation("androidx.compose.material:material-icons-extended-android:1.6.7")
+
+    // TensorFlow Lite core
+    implementation("org.tensorflow:tensorflow-lite:2.13.0")
+
+// TensorFlow Lite support (for preprocessing, etc.)
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
+
+// TensorFlow Lite Task API for Text Classification
+    implementation("org.tensorflow:tensorflow-lite-task-text:0.4.4")
 }
