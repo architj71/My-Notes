@@ -1,50 +1,35 @@
 package com.example.mynotes.presentation
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Sort
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.Sort
-import androidx.compose.material.icons.rounded.TextFields
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key.Companion.I
-import androidx.compose.ui.input.pointer.PointerIcon.Companion.Text
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.mynotes.ui.theme.Pink80
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NoteScreen(
     state: NoteState,
     navController: NavController,
     onEvent: (NotesEvent) -> Unit
-)  {
+) {
     Scaffold(
         topBar = {
             Row(
@@ -55,7 +40,6 @@ fun NoteScreen(
                     .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
-
             ) {
                 Text(
                     text = "MyNotes",
@@ -67,7 +51,8 @@ fun NoteScreen(
                 )
                 IconButton(onClick = { onEvent(NotesEvent.sortNotes) }) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.Sort, contentDescription = null,
+                        imageVector = Icons.AutoMirrored.Rounded.Sort,
+                        contentDescription = null,
                         modifier = Modifier.size(25.dp),
                         tint = Color.White
                     )
@@ -78,11 +63,11 @@ fun NoteScreen(
             FloatingActionButton(
                 containerColor = Color(0xFF9A9CEA),
                 onClick = {
-                state.title.value = ""
-                state.desc.value = ""
-                navController.navigate(route = "AddNoteScreen")
-
-            }) {
+                    state.title.value = ""
+                    state.desc.value = ""
+                    navController.navigate(route = "AddNoteScreen")
+                }
+            ) {
                 Icon(imageVector = Icons.Rounded.Add, contentDescription = null)
             }
         }
@@ -94,10 +79,10 @@ fun NoteScreen(
                 .padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(state.notes.size) {
+            items(state.notes.size) { i ->
                 NoteItem(
                     state = state,
-                    index = it,
+                    index = i,
                     onEvent = onEvent
                 )
             }
@@ -107,34 +92,46 @@ fun NoteScreen(
 
 @Composable
 fun NoteItem(state: NoteState, index: Int, onEvent: (NotesEvent) -> Unit) {
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(10.dp))
-            .background(Color(0xFFA6BEFF))
+            .background(getColorForCategory(state.notes[index].category))
             .padding(12.dp)
-
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = state.notes.get(index = index).title,
+                text = state.notes[index].title,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color.White
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = state.notes.get(index = index).desc,
+                text = state.notes[index].desc,
                 fontSize = 16.sp,
                 color = Color.White
             )
         }
-        IconButton(onClick = {onEvent(NotesEvent.DeleteNote(state.notes[index]))}) {
+        IconButton(onClick = { onEvent(NotesEvent.DeleteNote(state.notes[index])) }) {
             Icon(
                 imageVector = Icons.Rounded.Delete,
                 modifier = Modifier.size(35.dp),
                 contentDescription = null
             )
         }
+    }
+}
+
+fun getColorForCategory(category: String): Color {
+    Log.d("CategoryCheck", "Category: '${category}'")
+    return when (category.lowercase()) {
+        "work" -> Color(0xFFB39DDB)
+        "personal" -> Color(0xFF81D4FA)
+        "ideas" -> Color(0xFFFFAB91)
+        "shopping" -> Color(0xFFA5D6A7)
+        "finance" -> Color(0xFFFFF59D)
+        else -> Color(0xFFA6BEFF)
     }
 }

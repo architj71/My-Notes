@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mynotes.Data.Note
 import com.example.mynotes.Data.NoteDao
+import com.example.mynotes.ml.Classifier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -33,11 +34,16 @@ class NoteViewModel (private var dao : NoteDao) : ViewModel() {
                 }
             }
             is NotesEvent.SaveNote -> {
+                val content = state.value.title.value + " " + state.value.desc.value
+                val category = Classifier.classify(content)
+
                 val note = Note(
                     title = state.value.title.value,
                     desc = state.value.desc.value,
-                    dateAdded = System.currentTimeMillis()
-                    )
+                    dateAdded = System.currentTimeMillis(),
+                    category = category
+                )
+
                 viewModelScope.launch {
                     dao.upsert(note)
                 }
