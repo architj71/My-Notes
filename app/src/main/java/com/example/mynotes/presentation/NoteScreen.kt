@@ -21,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.mynotes.ui.theme.Pink80
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -92,7 +91,6 @@ fun NoteScreen(
 
 @Composable
 fun NoteItem(state: NoteState, index: Int, onEvent: (NotesEvent) -> Unit) {
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -124,14 +122,16 @@ fun NoteItem(state: NoteState, index: Int, onEvent: (NotesEvent) -> Unit) {
     }
 }
 
+// Updated color mapping for emotion labels
 fun getColorForCategory(category: String): Color {
-    Log.d("CategoryCheck", "Category: '${category}'")
+    Log.d("CategoryCheck", "Category: '$category'")
     return when (category.lowercase()) {
-        "work" -> Color(0xFFB39DDB)
-        "personal" -> Color(0xFF81D4FA)
-        "ideas" -> Color(0xFFFFAB91)
-        "shopping" -> Color(0xFFA5D6A7)
-        "finance" -> Color(0xFFFFF59D)
-        else -> Color(0xFFA6BEFF)
+        "happy" -> Color.Yellow
+        "sad" -> Color.Blue
+        "angry" -> Color.Red
+        "fear" -> Color.Gray
+        "surprise" -> Color.Magenta
+        "neutral" -> Color.LightGray
+        else -> Color.LightGray
     }
 }

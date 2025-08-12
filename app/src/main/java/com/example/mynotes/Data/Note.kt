@@ -10,5 +10,5 @@ data class Note(
     val title: String,
     val desc: String,
     val dateAdded: Long,
-    val category: String = "general"
+    val category: String = "neutral"
 )

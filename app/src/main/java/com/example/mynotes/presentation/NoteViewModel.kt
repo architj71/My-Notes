@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
 class NoteViewModel (private var dao : NoteDao) : ViewModel() {
     private var isSortedByDateAdded = MutableStateFlow(true)
     private var notes = isSortedByDateAdded.flatMapLatest {
