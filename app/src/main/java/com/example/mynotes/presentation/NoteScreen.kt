@@ -124,14 +124,13 @@ fun NoteItem(state: NoteState, index: Int, onEvent: (NotesEvent) -> Unit) {
 
 // Updated color mapping for emotion labels
 fun getColorForCategory(category: String): Color {
-    Log.d("CategoryCheck", "Category: '$category'")
     return when (category.lowercase()) {
-        "happy" -> Color.Yellow
-        "sad" -> Color.Blue
-        "angry" -> Color.Red
-        "fear" -> Color.Gray
-        "surprise" -> Color.Magenta
-        "neutral" -> Color.LightGray
-        else -> Color.LightGray
+        "happy" -> Color(0xFF9E857C)    // Warm Taupe (soft brown-gray)
+        "sad" -> Color(0xFF4A90E2)      // Muted Blue
+        "angry" -> Color(0xFFCF6679)    // Dusty Rose / Muted Red
+        "fear" -> Color(0xFF757575)     // Medium Gray
+        "surprise" -> Color(0xFF9575CD) // Soft Purple
+        "neutral" -> Color(0xFFBDBDBD)  // Light Gray
+        else -> Color(0xFFBDBDBD)       // Light Gray fallback
     }
 }
